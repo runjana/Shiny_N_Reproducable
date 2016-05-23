@@ -7,6 +7,15 @@
 # server.R
 #
 
+# ---
+# title: "Presentation"
+# author: "Ranjana Ghimire"
+# date: "May 23, 2016"
+# output: ioslides_presentation
+# runtime: shiny
+# ---
+
+
 source("sharedheader.R")
 source("predict.R")
 
