@@ -1,90 +1,66 @@
-# ---
-# title: "Presentation"
-# author: "Ranjana Ghimire"
-# date: "May 23, 2016"
-# ---
-
-# ui.R
-
-
-source("sharedheader.R")
-
 library(shiny)
 
 shinyUI(fluidPage(
-    titlePanel("Words Prediction Using N-Grams (Good-Turing Smoothing)"),
+    titlePanel("Simple Interest Calculator"),
     sidebarLayout(
-        sidebarPanel(width=4,
-            h3("Application Introduction"),
-            p("This app predicts the next English word of a sentence, using an n-gram based text prediction model with smoothing."),
-            p("Start typing your sentence in the text box. When you finish typing the predicted next word is displayed immediately."),
-            p("If the show other probabal words is true, details is shown with word cloud. Else just the next word is shown."),
-            HTML("<br/><br/>"),
-            
-            #p("Text Prediction Model Status:",textOutput("model.status",inline=TRUE)),
-            #selectInput("tssample", "Select training sample percentage:", tslist, multiple=FALSE, selected=tslist.selected),
-
-            fluidRow(
-                #column(3, 
-                #       p("Training data size:", textOutput("ng.size", inline=TRUE))
-                #       )
-                #column(9, 
-                #       span("Load time: ", HTML("<span style='font-size:small;'>(Please allow for up to 15 seconds)</span>"), htmlOutput("ng.loadtime"))
-                #       )
-            ),
-            #p("Size:", textOutput("ng.size", inline = TRUE)),
-            #span("Load time (sec):", htmlOutput("ng.loadtime")),
-            
-            #HTML("<br/>"), p("Prediction time:", textOutput("ng.predtime", inline=TRUE)),
-            
-            #HTML("<br/>"),
-            
-            radioButtons("showcandidates", "Show other probabal words:", c("True", "False"), selected="True", inline = TRUE),
-            
-            HTML("<br/><br/>"),
-            
-            p("Training set data:", textOutput("ngrams.info1", inline=TRUE)),
-            
-            tableOutput("ngrams.info2")        
+        sidebarPanel(
+            helpText("This app calculates simple interest 
+                     based on your inputs."),            
+            br(),            
+            numericInput("num_principal",
+                         label = h6("Enter the principal amount (in $)"),
+                         value = 1000),
+            br(),            
+            sliderInput("slider_intrate",
+                        label = h6("Choose the yearly interest rate (in %)"),
+                        min = 0, max = 20, value = 5),
+                       
+            br(),            
+            sliderInput("slider_num",
+                        label = h6("Choose the number of time periods"),
+                        min = 0, max = 50, value = 5),
+            selectInput("select_time",
+                        label = h6(""),
+                        choices = list("Years" = 1,
+                                       "Quarters" = 2,
+                                       "Months" =3),
+                        selected = 1 
+            ), 
+            br(),
+            br(),            
+            actionButton("action_Calc", label = "Refresh & Calculate")        
         ),
-        mainPanel(width = 8,
-                  column(5, 
-                         HTML("<br>"),
-                         strong(p("Enter your text:", style="margin-bottom:-10px;")),
-                         textInput("inputtext", label="", value="I love"),
-                         
-                         HTML("<br>"),
-                         
-                         p("You typed:"),
-                         #HTML("<div style='padding-left:10px; height:30px;'>"), 
-                         HTML("<em>"), textOutput("inputecho"), HTML("</em>"),
-                         #HTML("</div>"),
-                         
-                         HTML("<br>"),
-                         
-                         p("The suggested next word is:"),
-                         #HTML("<div style='padding-left:10px; height:30px; font-weight:bold;'"), 
-                         strong(textOutput("prediction")), 
-                         #HTML("</div>"), 
-                         
-                         HTML("<br><br>"),
-                         
-                         conditionalPanel(condition = "input.showcandidates == 'True'",
-                                          p("Cloud of probabal words :"),
-                                          plotOutput("ngrams.info3", height=500)
-                         )
-                  ),
-                  column(6, offset=1, 
-                       fluidRow(
-                           conditionalPanel(condition = "input.showcandidates == 'True'", 
-                                            fluidRow(
-                                                p("As selected from the following words:"),
-                                                tableOutput("candidates")
-                                            )
-                           )
-                       )
-                  )
+        mainPanel(
+            tabsetPanel(
+                tabPanel("Output",
+                    p(h5("Your entered values:")),
+                    textOutput("text_principal"),
+                    textOutput("text_intrate"),
+                    textOutput("text_num"),
+                    textOutput("text_time"),
+                    br(),
+                    p(h5("Calculated values:")),
+                    textOutput("text_int"),
+                    textOutput("text_amt")
+                ),
+                tabPanel("Documentation",
+                    p(h4("Simple Interest Calculator:")),
+                    br(),
+                    helpText("This application calculates simple interest
+                             and total amount, i.e. principal plus interest."),
+                    HTML("<u><b>Equation for calculation: </b></u>
+                        <br> <br>
+                        <b> A = P + I = P(1 + rt) ; R = r * 100 </b>
+                        <br>
+                        where: <br>
+                        A = Total amount (Principal + Interest) <br>
+                        P = Principal amount <br>
+                        I = Interest amount <br>
+                        r = Rate of interest per year, in decimal; r=R/100 <br>
+                        t = Time period invested in years/quarters/months
+                    ")                
+                )
+            )
         )
-    ) #sidebarLayout
-)) # fluidPage shinyUI
-
+    )
+))
