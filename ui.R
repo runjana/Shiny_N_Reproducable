@@ -1,8 +1,7 @@
 # ---
-# title:  "Next Word Prediction Using N-Grams (Good-Turing Smoothing)"
-# subtitle:   "Data Science Capstone Final Project Report"
+# title: "Presentation"
 # author: "Ranjana Ghimire"
-# date:   "05/23/2016"
+# date: "May 23, 2016"
 # ---
 
 # ui.R
